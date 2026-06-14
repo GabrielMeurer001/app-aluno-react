@@ -6,7 +6,7 @@ O trabalho foi realizado como projeto final para a disciplina de **Front-end** d
 
 ---
 
-## 🚀 Como Executar o Projeto
+##  Como Executar o Projeto
 
 Para rodar a aplicação localmente, certifique-se de que você possui o [Node.js](https://nodejs.org/) instalado em sua máquina e siga os passos abaixo:
 
@@ -37,7 +37,7 @@ npm run build
 
 ---
 
-## 🔑 Credenciais para Demonstração (Login Rápido)
+## Credenciais para Demonstração (Login Rápido)
 
 Para facilitar a correção e avaliação, a aplicação vem pré-semeada com um usuário de teste padrão em seu banco de dados local (`localStorage`):
 
@@ -50,7 +50,7 @@ Para facilitar a correção e avaliação, a aplicação vem pré-semeada com um
 
 ---
 
-## 🛠️ Tecnologias e Conceitos Aplicados
+##  Tecnologias e Conceitos Aplicados
 
 A aplicação foi estruturada seguindo rigorosamente os padrões modernos de React, cobrindo todos os requisitos avaliativos da disciplina:
 
@@ -75,7 +75,7 @@ A aplicação foi estruturada seguindo rigorosamente os padrões modernos de Rea
 
 ---
 
-## 📂 Estrutura de Pastas do Projeto
+##  Estrutura de Pastas do Projeto
 
 A organização interna do código segue o padrão profissional de escalabilidade:
 
