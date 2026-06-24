@@ -2,27 +2,27 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useUsuario } from '../context/UsuarioContext';
 import Layout from '../components/Layout';
 import { getTutorResponse } from '../services/tutorService';
-import { 
-  Bot, 
-  Send, 
-  Paperclip, 
-  Volume2, 
-  Copy, 
-  RefreshCw, 
-  ThumbsDown, 
-  Loader2, 
-  AlertCircle 
+import {
+  Bot,
+  Send,
+  Paperclip,
+  Volume2,
+  Copy,
+  RefreshCw,
+  ThumbsDown,
+  Loader2,
+  AlertCircle
 } from 'lucide-react';
 
 const TutorIAPage = () => {
   const { usuario } = useUsuario();
   const messagesEndRef = useRef(null);
-  
+
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Prefill the messages to match the reference print TutorIA.png exactly
+  // Preenche as mensagens para corresponder exatamente ao print de referência tutor
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -38,7 +38,7 @@ const TutorIAPage = () => {
     }
   ]);
 
-  // Scroll to bottom on new messages
+  // Rola para a parte inferior nas novas mensagens
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -55,7 +55,7 @@ const TutorIAPage = () => {
     setInput('');
     setError('');
 
-    // 1. Add user message
+    // Adiciona a mensagem do usuário
     const userMsg = {
       id: Date.now(),
       sender: usuario?.nome || 'Aluno',
@@ -63,15 +63,15 @@ const TutorIAPage = () => {
       isUser: true
     };
     setMessages((prev) => [...prev, userMsg]);
-    
-    // 2. Trigger fetch (loading state active)
+
+    // busca 
     setLoading(true);
 
     try {
-      // Consume API from tutorService
+      // Consome a API do tutorService
       const aiResponseText = await getTutorResponse(userMsgText);
-      
-      // 3. Add AI message (data state)
+
+      //  Adiciona a mensagem da IA 
       const aiMsg = {
         id: Date.now() + 1,
         sender: 'Tutor IA',
@@ -80,18 +80,18 @@ const TutorIAPage = () => {
       };
       setMessages((prev) => [...prev, aiMsg]);
     } catch (err) {
-      // Error state
+      // Estado de erro
       setError(err.message || 'Ocorreu um erro ao obter resposta do Tutor.');
     } finally {
-      // Done loading
+
       setLoading(false);
     }
   };
 
-  // Speaks message using SpeechSynthesis
+  // Fala a mensagem usando SpeechSynthesis
   const handleSpeak = (text) => {
     if ('speechSynthesis' in window) {
-      // Cancel active speech first
+      // Cancela a fala ativa 
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'pt-BR';
@@ -101,13 +101,13 @@ const TutorIAPage = () => {
     }
   };
 
-  // Copies text to clipboard
+  // Copia o texto para a área de transferência
   const handleCopy = (text) => {
     navigator.clipboard.writeText(text);
     alert('Mensagem copiada para a área de transferência!');
   };
 
-  // Retry generating response
+  // Tenta gerar a resposta novamente
   const handleRegenerate = async (lastUserText) => {
     if (loading) return;
     setError('');
@@ -133,7 +133,7 @@ const TutorIAPage = () => {
     return nome.split(' ')[0][0].toUpperCase();
   };
 
-  // Find last user message text to retry if needed
+  // Encontra o texto da última mensagem do usuário para tentar novamente se necessário
   const getLastUserMessageText = () => {
     const userMsgs = messages.filter((m) => m.isUser);
     return userMsgs.length > 0 ? userMsgs[userMsgs.length - 1].text : '';
@@ -142,12 +142,12 @@ const TutorIAPage = () => {
   return (
     <Layout>
       <div className="tutor-container">
-        {/* Chat History Area */}
+        {/* Área do Histórico de Chat */}
         <div className="tutor-messages">
           {messages.map((m) => (
             <div key={m.id} className="message-bubble" style={{ alignSelf: m.isUser ? 'flex-end' : 'flex-start' }}>
-              
-              {/* Avatar Column */}
+
+              {/* Coluna do Avatar */}
               <div className={`message-avatar ${m.isUser ? 'user' : 'ai'}`}>
                 {m.isUser ? (
                   getInitials(m.sender)
@@ -156,40 +156,40 @@ const TutorIAPage = () => {
                 )}
               </div>
 
-              {/* Message Content Column */}
+              {/* Coluna de Conteúdo da Mensagem */}
               <div className="message-content">
                 <span className="message-sender">{m.sender}</span>
                 <p className="message-text">{m.text}</p>
-                
-                {/* Actions (Only for AI responses) */}
+
+                {/* Ações (Apenas para respostas da IA) */}
                 {!m.isUser && (
                   <div className="message-actions">
-                    <button 
-                      onClick={() => handleSpeak(m.text)} 
+                    <button
+                      onClick={() => handleSpeak(m.text)}
                       className="message-action-btn"
                       title="Ouvir Resposta"
                       aria-label="Ouvir Resposta"
                     >
                       <Volume2 size={16} />
                     </button>
-                    <button 
-                      onClick={() => handleCopy(m.text)} 
+                    <button
+                      onClick={() => handleCopy(m.text)}
                       className="message-action-btn"
                       title="Copiar Texto"
                       aria-label="Copiar Texto"
                     >
                       <Copy size={16} />
                     </button>
-                    <button 
-                      onClick={() => handleRegenerate(getLastUserMessageText() || 'computação')} 
+                    <button
+                      onClick={() => handleRegenerate(getLastUserMessageText() || 'computação')}
                       className="message-action-btn"
                       title="Regenerar Resposta"
                       aria-label="Regenerar Resposta"
                     >
                       <RefreshCw size={16} />
                     </button>
-                    <button 
-                      onClick={() => alert('Feedback negativo registrado.')} 
+                    <button
+                      onClick={() => alert('Feedback negativo registrado.')}
                       className="message-action-btn"
                       title="Feedback Ruim"
                       aria-label="Feedback Ruim"
@@ -203,7 +203,7 @@ const TutorIAPage = () => {
             </div>
           ))}
 
-          {/* Render Loading State Bubble */}
+          {/* Renderiza o Balão de Estado de Carregamento */}
           {loading && (
             <div className="tutor-loading-bubble animate-pulse">
               <Loader2 className="animate-spin" size={16} />
@@ -211,20 +211,20 @@ const TutorIAPage = () => {
             </div>
           )}
 
-          {/* Render Error State Bubble */}
+          {/* Renderiza o Balão de Estado de Erro */}
           {error && (
             <div className="tutor-error-bubble animate-fade-in">
               <AlertCircle size={18} />
               <span>{error}</span>
-              <button 
-                onClick={() => handleRegenerate(getLastUserMessageText() || 'computação')} 
-                style={{ 
-                  marginLeft: '12px', 
-                  background: 'none', 
-                  border: 'underline', 
-                  color: 'inherit', 
+              <button
+                onClick={() => handleRegenerate(getLastUserMessageText() || 'computação')}
+                style={{
+                  marginLeft: '12px',
+                  background: 'none',
+                  border: 'underline',
+                  color: 'inherit',
                   cursor: 'pointer',
-                  fontWeight: 700 
+                  fontWeight: 700
                 }}
               >
                 Tentar novamente
@@ -235,11 +235,11 @@ const TutorIAPage = () => {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input Bar Section */}
+        {/* Seção da Barra de Entrada */}
         <div className="tutor-input-container">
           <form onSubmit={handleSend} className="tutor-input-form">
-            <button 
-              type="button" 
+            <button
+              type="button"
               className="tutor-input-btn-attach"
               onClick={() => alert('Anexo de arquivos indisponível no ambiente de demonstração.')}
               title="Anexar Arquivo"
@@ -247,7 +247,7 @@ const TutorIAPage = () => {
             >
               <Paperclip size={20} />
             </button>
-            
+
             <input
               type="text"
               className="tutor-input-field"
@@ -257,8 +257,8 @@ const TutorIAPage = () => {
               disabled={loading}
             />
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="tutor-input-btn-send"
               disabled={!input.trim() || loading}
               title="Enviar Pergunta"

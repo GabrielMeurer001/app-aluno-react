@@ -3,8 +3,8 @@ import React from 'react';
 const DisciplinaCard = ({
   nome,
   professor,
-  status, // 'EM CURSO' or 'PRÓXIMO SEMESTRE'
-  progresso, // number
+  status, // 'EM CURSO' ou 'PRÓXIMO SEMESTRE'
+  progresso, // número
   onAcessar
 }) => {
   const isEmCurso = status === 'EM CURSO';

@@ -25,24 +25,24 @@ const GithubIcon = ({ size = 20, className = '' }) => (
 const ProfilePage = () => {
   const { usuario, register } = useUsuario();
   const [activeTab, setActiveTab] = useState('dados'); // 'dados', 'config', 'seguranca'
-  
-  // GitHub integration states
+
+  // Estados de integração com o GitHub
   const [githubData, setGithubData] = useState(null);
   const [loadingGit, setLoadingGit] = useState(false);
   const [errorGit, setErrorGit] = useState('');
 
-  // Editable configuration states
+  // Estados de configuração editável
   const [telefone, setTelefone] = useState(usuario?.telefone || '');
   const [githubUsername, setGithubUsername] = useState(usuario?.githubUsername || '');
   const [saveSuccess, setSaveSuccess] = useState('');
 
-  // Password change states
+  // Estados de mudança de senha
   const [senhaAtual, setSenhaAtual] = useState('');
   const [novaSenha, setNovaSenha] = useState('');
   const [senhaSuccess, setSenhaSuccess] = useState('');
   const [senhaErro, setSenhaErro] = useState('');
 
-  // Fetch GitHub profile on mount or when githubUsername changes
+  // Busca o perfil do GitHub ao montar o componente ou quando o githubUsername muda
   useEffect(() => {
     let active = true;
     if (!usuario?.githubUsername) {
@@ -78,23 +78,23 @@ const ProfilePage = () => {
   const handleSaveConfig = (e) => {
     e.preventDefault();
     setSaveSuccess('');
-    
-    // Update fields in session storage list
+
+    // Atualiza os campos na lista do localStorage
     const registered = localStorage.getItem('app_aluno_registered_users');
     if (registered) {
       const users = JSON.parse(registered);
       const userIndex = users.findIndex((u) => u.email.toLowerCase() === usuario.email.toLowerCase());
-      
+
       if (userIndex !== -1) {
         users[userIndex].telefone = telefone;
         users[userIndex].githubUsername = githubUsername;
         localStorage.setItem('app_aluno_registered_users', JSON.stringify(users));
-        
-        // Update current context session
+
+        // Atualiza a sessão atual do contexto
         usuario.telefone = telefone;
         usuario.githubUsername = githubUsername;
         localStorage.setItem('app_aluno_user', JSON.stringify(usuario));
-        
+
         setSaveSuccess('Configurações atualizadas com sucesso!');
         setTimeout(() => setSaveSuccess(''), 3000);
       }
@@ -115,16 +115,16 @@ const ProfilePage = () => {
     if (registered) {
       const users = JSON.parse(registered);
       const userIndex = users.findIndex((u) => u.email.toLowerCase() === usuario.email.toLowerCase());
-      
+
       if (userIndex !== -1) {
         if (users[userIndex].senha !== senhaAtual) {
           setSenhaErro('Senha atual incorreta.');
           return;
         }
-        
+
         users[userIndex].senha = novaSenha;
         localStorage.setItem('app_aluno_registered_users', JSON.stringify(users));
-        
+
         setSenhaSuccess('Senha alterada com sucesso!');
         setSenhaAtual('');
         setNovaSenha('');
@@ -132,7 +132,7 @@ const ProfilePage = () => {
     }
   };
 
-  // Generate initials for avatar
+  // Gera iniciais para o avatar
   const getInitials = (nome) => {
     if (!nome) return 'A';
     const split = nome.split(' ');
@@ -144,7 +144,7 @@ const ProfilePage = () => {
 
   const formatCpfMask = (cpfStr) => {
     if (!cpfStr) return '***.***.***-**';
-    // Return masked CPF: ***.***.***-89
+    // Retorna CPF mascarado: ***.***.***-89
     const clean = cpfStr.replace(/\D/g, '');
     if (clean.length === 11) {
       return `***.***.***-${clean.slice(9)}`;
@@ -158,12 +158,12 @@ const ProfilePage = () => {
   return (
     <Layout>
       <div className="profile-card">
-        {/* Profile Header */}
+        {/* Cabeçalho do Perfil */}
         <div className="profile-header">
           {githubData?.avatarUrl ? (
-            <img 
-              src={githubData.avatarUrl} 
-              alt={usuario?.nome} 
+            <img
+              src={githubData.avatarUrl}
+              alt={usuario?.nome}
               className="profile-avatar-circle"
             />
           ) : (
@@ -177,9 +177,9 @@ const ProfilePage = () => {
           </div>
         </div>
 
-        {/* Navigation Tabs */}
+        {/* Abas de Navegação */}
         <div className="profile-tabs" role="tablist">
-          <button 
+          <button
             role="tab"
             aria-selected={activeTab === 'dados'}
             className={`profile-tab ${activeTab === 'dados' ? 'active' : ''}`}
@@ -187,7 +187,7 @@ const ProfilePage = () => {
           >
             Dados Pessoais
           </button>
-          <button 
+          <button
             role="tab"
             aria-selected={activeTab === 'config'}
             className={`profile-tab ${activeTab === 'config' ? 'active' : ''}`}
@@ -195,7 +195,7 @@ const ProfilePage = () => {
           >
             Configurações
           </button>
-          <button 
+          <button
             role="tab"
             aria-selected={activeTab === 'seguranca'}
             className={`profile-tab ${activeTab === 'seguranca' ? 'active' : ''}`}
@@ -205,7 +205,7 @@ const ProfilePage = () => {
           </button>
         </div>
 
-        {/* Tab Contents */}
+        {/* Conteúdo das Abas */}
         <div className="profile-details">
           {activeTab === 'dados' && (
             <div className="animate-fade-in">
@@ -230,7 +230,7 @@ const ProfilePage = () => {
                 <div className="profile-row-value">{usuario?.telefone || 'Não fornecido'}</div>
               </div>
 
-              {/* GitHub Integration details based on three states */}
+              {/* Detalhes da integração com o GitHub com base em três estados */}
               <div style={{ marginTop: '24px', borderTop: '1px solid var(--color-border-light)', paddingTop: '20px' }}>
                 <h4 style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-primary)', marginBottom: '12px' }}>
                   <GithubIcon size={18} /> Integração GitHub (API Externa)
@@ -238,7 +238,7 @@ const ProfilePage = () => {
 
                 {usuario?.githubUsername ? (
                   <>
-                    {/* Loading State */}
+                    {/* Estado de Carregamento */}
                     {loadingGit && (
                       <div className="tutor-loading-bubble" style={{ marginLeft: 0 }}>
                         <Loader2 className="animate-spin" size={16} />
@@ -246,14 +246,14 @@ const ProfilePage = () => {
                       </div>
                     )}
 
-                    {/* Error State */}
+                    {/* Estado de Erro */}
                     {errorGit && (
                       <div className="tutor-error-bubble" style={{ marginLeft: 0 }}>
-                        ⚠️ {errorGit}
+                        Erro ao carregar informações do GitHub:{errorGit}
                       </div>
                     )}
 
-                    {/* Success/Data State */}
+                    {/* Estado de Sucesso/Dados */}
                     {githubData && !loadingGit && (
                       <div className="animate-fade-in" style={{ backgroundColor: '#fafafa', padding: '16px', borderRadius: '4px', border: '1px solid var(--color-border-light)' }}>
                         <p style={{ fontSize: '14px', marginBottom: '8px' }}>
@@ -287,15 +287,15 @@ const ProfilePage = () => {
                   {saveSuccess}
                 </div>
               )}
-              
+
               <div className="form-group" style={{ marginBottom: '16px' }}>
                 <label htmlFor="telefone_edit" style={{ fontSize: '14px', fontWeight: '600', marginBottom: '6px', display: 'block' }}>
                   Número de Telefone
                 </label>
-                <input 
+                <input
                   id="telefone_edit"
-                  type="text" 
-                  value={telefone} 
+                  type="text"
+                  value={telefone}
                   onChange={(e) => setTelefone(e.target.value)}
                   style={{ width: '100%', padding: '10px', border: '1px solid var(--color-border)', borderRadius: '4px' }}
                 />
@@ -305,10 +305,10 @@ const ProfilePage = () => {
                 <label htmlFor="github_edit" style={{ fontSize: '14px', fontWeight: '600', marginBottom: '6px', display: 'block' }}>
                   Usuário do GitHub
                 </label>
-                <input 
+                <input
                   id="github_edit"
-                  type="text" 
-                  value={githubUsername} 
+                  type="text"
+                  value={githubUsername}
                   onChange={(e) => setGithubUsername(e.target.value)}
                   placeholder="Ex: lucasbeskow"
                   style={{ width: '100%', padding: '10px', border: '1px solid var(--color-border)', borderRadius: '4px' }}
@@ -334,15 +334,15 @@ const ProfilePage = () => {
                   {senhaErro}
                 </div>
               )}
-              
+
               <div className="form-group" style={{ marginBottom: '16px' }}>
                 <label htmlFor="senha_atual" style={{ fontSize: '14px', fontWeight: '600', marginBottom: '6px', display: 'block' }}>
                   Senha Atual
                 </label>
-                <input 
+                <input
                   id="senha_atual"
-                  type="password" 
-                  value={senhaAtual} 
+                  type="password"
+                  value={senhaAtual}
                   onChange={(e) => setSenhaAtual(e.target.value)}
                   style={{ width: '100%', padding: '10px', border: '1px solid var(--color-border)', borderRadius: '4px' }}
                 />
@@ -352,10 +352,10 @@ const ProfilePage = () => {
                 <label htmlFor="nova_senha" style={{ fontSize: '14px', fontWeight: '600', marginBottom: '6px', display: 'block' }}>
                   Nova Senha
                 </label>
-                <input 
+                <input
                   id="nova_senha"
-                  type="password" 
-                  value={novaSenha} 
+                  type="password"
+                  value={novaSenha}
                   onChange={(e) => setNovaSenha(e.target.value)}
                   style={{ width: '100%', padding: '10px', border: '1px solid var(--color-border)', borderRadius: '4px' }}
                 />

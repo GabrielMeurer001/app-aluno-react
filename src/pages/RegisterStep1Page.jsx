@@ -10,7 +10,7 @@ const RegisterStep1Page = () => {
   const [erro, setErro] = useState('');
 
   const formatCpf = (value) => {
-    // Basic CPF mask formatter: 000.000.000-00
+    // Formatador básico de máscara de CPF: 000.000.000-00
     const numbers = value.replace(/\D/g, '').slice(0, 11);
     
     if (numbers.length <= 3) return numbers;

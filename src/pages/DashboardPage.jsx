@@ -13,11 +13,11 @@ const DashboardPage = () => {
   const { usuario, progressoAulas, concluirMateria } = useUsuario();
   const [dataAtual, setDataAtual] = useState('');
 
-  // Function to format date and time exactly in pt-BR
+  // Função para formatar data e hora exatamente em pt-BR
   const formatarData = () => {
     const agora = new Date();
     
-    // Format: D de MMMM de YYYY
+    // Formato: D de MMMM de YYYY
     const dia = agora.getDate();
     const meses = [
       'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
@@ -26,11 +26,11 @@ const DashboardPage = () => {
     const mes = meses[agora.getMonth()];
     const ano = agora.getFullYear();
 
-    // Time: hh:mm:ss a
+    // Hora: hh:mm:ss a
     let horas = agora.getHours();
     const ampm = horas >= 12 ? 'pm' : 'am';
     horas = horas % 12;
-    horas = horas ? horas : 12; // hour '0' should be '12'
+    horas = horas ? horas : 12; // hora '0' deve ser '12'
     
     const minutos = String(agora.getMinutes()).padStart(2, '0');
     const segundos = String(agora.getSeconds()).padStart(2, '0');
@@ -39,7 +39,7 @@ const DashboardPage = () => {
     return `${dia} de ${mes} de ${ano} (${horasStr}:${minutos}:${segundos} ${ampm})`;
   };
 
-  // Live ticking clock
+  // Relógio atualizado em tempo real
   useEffect(() => {
     setDataAtual(formatarData());
     const interval = setInterval(() => {
@@ -48,7 +48,7 @@ const DashboardPage = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Determine dynamic greeting based on hour
+  // Determina a saudação dinâmica baseada na hora
   const getGreeting = () => {
     const hora = new Date().getHours();
     if (hora < 12) return 'Bom dia';
@@ -72,7 +72,7 @@ const DashboardPage = () => {
         </p>
       </div>
 
-      {/* Course Cards */}
+      {/* Cartões de Cursos */}
       <Card
         badge="Em progresso"
         title="Front-end"
@@ -91,7 +91,7 @@ const DashboardPage = () => {
         onButtonClick={() => concluirMateria('design')}
       />
 
-      {/* Bottom Indicators Section */}
+      {/* Seção de Indicadores Inferiores */}
       <div className="card__group">
         <Card className="card-indicator">
           <div className="card-indicator-header">

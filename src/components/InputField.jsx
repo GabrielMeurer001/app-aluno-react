@@ -9,7 +9,7 @@ const InputField = ({
   onChange,
   placeholder,
   error,
-  labelLink, // Object containing { text: 'Esqueceu?', to: '/esqueceu' }
+  labelLink, // Objeto contendo 
   ...props
 }) => {
   return (

@@ -7,7 +7,7 @@ const RegisterStep2Page = () => {
   const { register, tempCpf } = useUsuario();
   const navigate = useNavigate();
 
-  // Redirect if CPF is not set in step 1
+  // Redireciona se o CPF não estiver definido no passo 1
   useEffect(() => {
     if (!tempCpf) {
       navigate('/cadastro-passo1');

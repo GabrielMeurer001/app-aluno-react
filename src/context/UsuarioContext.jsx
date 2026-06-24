@@ -3,29 +3,29 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 const UsuarioContext = createContext();
 
 export const UsuarioProvider = ({ children }) => {
-  // Try to load user session from localStorage on init
+  // Tenta carregar a sessão do usuário do localStorage na inicialização
   const [usuario, setUsuario] = useState(() => {
     const stored = localStorage.getItem('app_aluno_user');
     return stored ? JSON.parse(stored) : null;
   });
 
-  // Temporary CPF stored during Step 1 of registration
+  // CPF temporário armazenado durante o Passo 1 do cadastro
   const [tempCpf, setTempCpf] = useState(() => {
     return localStorage.getItem('app_aluno_temp_cpf') || '';
   });
 
-  // Track progress of the dashboard subjects statefully
+  // Acompanha o progresso das matérias do painel com estado
   const [progressoAulas, setProgressoAulas] = useState(() => {
     const stored = localStorage.getItem('app_aluno_progress');
     return stored ? JSON.parse(stored) : { front: 65, design: 25 };
   });
 
-  // Save progress changes to localStorage
+  // Salva as alterações de progresso no localStorage
   useEffect(() => {
     localStorage.setItem('app_aluno_progress', JSON.stringify(progressoAulas));
   }, [progressoAulas]);
 
-  // Save session changes to localStorage
+  // Salva as alterações de sessão no localStorage
   useEffect(() => {
     if (usuario) {
       localStorage.setItem('app_aluno_user', JSON.stringify(usuario));
@@ -34,18 +34,18 @@ export const UsuarioProvider = ({ children }) => {
     }
   }, [usuario]);
 
-  // Seed default user if none exists in registration databases
+  // Semeia usuário padrão se não existir no banco de dados de cadastro
   const getRegisteredUsers = () => {
     const users = localStorage.getItem('app_aluno_registered_users');
     if (!users) {
       const defaultUsers = [
         {
-          nome: 'João Silva',
-          email: 'joao.silva@satc.edu.br',
+          nome: 'Gabriel Meurer',
+          email: 'gabrielmeurer2007@gmail.com',
           telefone: '(48) 99999-9999',
           cpf: '123.456.789-00',
-          githubUsername: 'lucasbeskow', // Seed default GitHub user to demo API
-          senha: '123'
+          githubUsername: 'lucasbeskow', // Semeia usuário padrão do GitHub para demonstrar a API
+          senha: '123456'
         }
       ];
       localStorage.setItem('app_aluno_registered_users', JSON.stringify(defaultUsers));
@@ -81,8 +81,8 @@ export const UsuarioProvider = ({ children }) => {
 
   const register = (nome, telefone, email, senha, githubUsername) => {
     const users = getRegisteredUsers();
-    
-    // Check if email already exists
+
+
     if (users.some((u) => u.email.toLowerCase() === email.toLowerCase())) {
       return { success: false, message: 'Este e-mail já está cadastrado.' };
     }
@@ -96,15 +96,15 @@ export const UsuarioProvider = ({ children }) => {
       githubUsername: githubUsername || ''
     };
 
-    // Save to registered users list
+    // Salva na lista de usuários cadastrados
     users.push(newUser);
     localStorage.setItem('app_aluno_registered_users', JSON.stringify(users));
 
-    // Clear temp CPF
+    // Limpa o CPF temporário
     setTempCpf('');
     localStorage.removeItem('app_aluno_temp_cpf');
 
-    // Auto-login registered user
+    // Login automático do usuário cadastrado
     setUsuario({
       nome: newUser.nome,
       email: newUser.email,
@@ -113,7 +113,7 @@ export const UsuarioProvider = ({ children }) => {
       githubUsername: newUser.githubUsername
     });
 
-    // Reset courses progress upon new user registration to show starting values
+    // Redefine o progresso dos cursos no cadastro de novo usuário para mostrar valores iniciais
     setProgressoAulas({ front: 65, design: 25 });
 
     return { success: true };

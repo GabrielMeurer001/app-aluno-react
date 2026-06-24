@@ -6,14 +6,14 @@ import DisciplinaCard from '../components/DisciplinaCard';
 const DisciplinasPage = () => {
   const { progressoAulas } = useUsuario();
 
-  // Custom data list for disciplines
+  // Lista de dados personalizados para disciplinas
   const disciplinas = [
     {
       id: 'front',
       nome: 'Front-end',
       professor: 'PROF. MARCO SILVA',
       status: 'EM CURSO',
-      // If completed on dashboard (100%), show 100%, else show 75% default from image
+      // Se concluído no dashboard , mostra 100%, senão mostra o padrão de 75% da imagem
       progresso: progressoAulas.front === 100 ? 100 : 75
     },
     {
@@ -21,7 +21,7 @@ const DisciplinasPage = () => {
       nome: 'UX Design',
       professor: 'DRA. ANA LUCIA',
       status: 'PRÓXIMO SEMESTRE',
-      // If completed on dashboard (100%), show 100%, else show 0% default from image
+      // Se concluído no dashboard (100%), mostra 100%, senão mostra o padrão de 0% da imagem
       progresso: progressoAulas.design === 100 ? 100 : 0
     }
   ];
@@ -36,7 +36,7 @@ const DisciplinasPage = () => {
         <h1>Minhas Disciplinas</h1>
       </div>
 
-      {/* Grid container with list rendering */}
+      {/* Container grid com renderização de lista */}
       <div className="disciplinas-grid">
         {disciplinas.map((d) => (
           <DisciplinaCard

@@ -10,15 +10,15 @@ export const getGithubProfile = async (username) => {
 
   try {
     const response = await fetch(url);
-    
-    // Technical requirement: check res.ok before parsing
+
+
     if (!response.ok) {
       if (response.status === 404) {
         throw new Error('Usuário do GitHub não encontrado.');
       }
       throw new Error(`Erro na API do GitHub: Status ${response.status}`);
     }
-    
+
     const data = await response.json();
     return {
       avatarUrl: data.avatar_url,

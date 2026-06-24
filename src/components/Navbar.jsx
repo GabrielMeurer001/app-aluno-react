@@ -27,7 +27,7 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Top Navigation for Desktop */}
+      {/* Navegação superior para Desktop */}
       <header className="menu">
         <div className="menu__body">
           <NavLink to="/dashboard" className="menu__title" style={{ textDecoration: 'none' }}>
@@ -64,7 +64,7 @@ const Navbar = () => {
         </div>
       </header>
 
-      {/* Bottom Navigation for Mobile */}
+      {/* Navegação inferior para Mobile */}
       <nav className="mobile-nav-bar" aria-label="Navegação móvel">
         {navItems.map((item) => (
           <NavLink

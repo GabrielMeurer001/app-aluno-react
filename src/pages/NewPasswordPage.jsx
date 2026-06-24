@@ -30,7 +30,7 @@ const NewPasswordPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validarForm()) {
-      // In a real application, we would call an API or context function to change the password
+
       setSucesso(true);
     }
   };
@@ -66,8 +66,8 @@ const NewPasswordPage = () => {
               <p style={{ fontSize: '14px', color: '#757575', marginBottom: '30px' }}>
                 Sua senha foi atualizada no sistema acadêmico. Clique abaixo para fazer login com a nova credencial.
               </p>
-              
-              <button 
+
+              <button
                 onClick={() => navigate('/login')}
                 className="form-btn-submit"
               >

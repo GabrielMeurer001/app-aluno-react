@@ -2,10 +2,10 @@ import React from 'react';
 
 const Card = ({
   badge,
-  badgeType, // 'blue' or default
+  badgeType, // 'blue' ou padrão
   title,
   description,
-  progress, // number between 0 and 100
+  progress, // número entre 0 e 100
   progressText,
   buttonText,
   onButtonClick,

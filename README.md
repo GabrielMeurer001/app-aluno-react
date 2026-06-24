@@ -41,9 +41,9 @@ npm run build
 
 Para facilitar a correção e avaliação, a aplicação vem pré-semeada com um usuário de teste padrão em seu banco de dados local (`localStorage`):
 
-*   **E-mail:** `joao.silva@satc.edu.br`
-*   **Senha:** `123`
-*   **Nome Completo:** João Silva
+*   **E-mail:** `gabrielmeurer2007@gmail.com`
+*   **Senha:** `123456`
+*   **Nome Completo:** Gabriel Meurer
 *   **Nome do GitHub Integrado:** `lucasbeskow`
 
 > **Nota:** Você também pode utilizar a tela **Cadastre-se** para criar uma conta nova e personalizada informando CPF, Nome, E-mail, Senha e Usuário do GitHub. O fluxo efetuará login automático após o cadastro.
